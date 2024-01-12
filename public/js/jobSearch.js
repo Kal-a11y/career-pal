@@ -12,10 +12,10 @@ if (document.querySelector('#result-list') !== null) {
             const searchTerm = decodeURIComponent(document.location.pathname.split('/')[2]);
 
             if (window.innerWidth >= 640) {
-                document.location.href = `/job-search/${searchTerm}/${itemTitle}/false`; 
+                window.location.replace(`/job-search/${searchTerm}/${itemTitle}/false`);
 
             } else {
-                document.location.href = `/job-search/${searchTerm}/${itemTitle}/true`
+                window.location.replace(`/job-search/${searchTerm}/${itemTitle}/true`)
             }
         })
     });
@@ -26,29 +26,58 @@ if (document.querySelector('#result-list') !== null) {
 
 searchBtn.addEventListener('click', async (event) => {
     event.preventDefault();
+    //Get search term
     const searchTerm = searchBar.value.trim();
-    console.log('sending search')
 
-    const res = await fetch('/job-search/' + searchTerm);
-    console.log('turning json')
-    const data =  res.json()
-    
-    if (data) {
-        document.location.href ='/job-search/' + searchTerm
+    //See if search has already been made
+    const res = await fetch('/job-search', {
+        method: 'POST',
+        body: JSON.stringify({ searchTerm }),
+        headers: { 'Content-Type': 'application/json' },
+    })
+    const searchData = await res.json()
+    if (res.ok) {
+        //If there is no history create search
+        if (searchData.data === null) {
+            const res2 = await fetch('/api/job-search', {
+                method: 'POST',
+                body: JSON.stringify({ searchTerm }),
+                headers: { 'Content-Type': 'application/json' },
+            })
 
-    } else {
 
-        const res2 = await fetch('/api/job-search', {
-            method: 'POST',
-            body: JSON.stringify({ searchTerm }),
-            headers: { 'Content-Type': 'application/json' },
-        })
-    
-    
-        if (res2.ok) {
-            document.location.href = `/job-search/ + ${searchTerm}`
-            console.log(data)
+            if (res2.ok) {
+                window.location.href = (`/job-search/${searchTerm}`);
+                
+            }
+
+        //Otherwise render the page
+        }else{
+            window.location.href = '/job-search/' + searchTerm
         }
+
     }
+
+    // const res = await fetch('/job-search/' + searchTerm);
+    // console.log('turning json')
+    // const data =  res.json()
+    // console.log(data)
+    // if (data !== null) {
+    //     window.location.replace('/job-search/' + searchTerm)
+
+    // } else {
+
+    //     const res2 = await fetch('/api/job-search', {
+    //         method: 'POST',
+    //         body: JSON.stringify({ searchTerm }),
+    //         headers: { 'Content-Type': 'application/json' },
+    //     })
+
+
+    //     if (res2.ok) {
+    //         window.location.replace(`/job-search/ + ${searchTerm}`)
+    //         console.log(data)
+    //     }
+    // }
 
 })

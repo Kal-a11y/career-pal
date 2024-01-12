@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const History = require('../../models/searchHistory');
+require('dotenv').config();
+
 
 router.post('/', async (req, res) => {
     try {

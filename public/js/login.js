@@ -6,6 +6,7 @@ const jsearchInstruction = document.querySelector('#jsearch-instructions');
 const loginUsername = document.querySelector('#login-username');
 const loginPassword = document.querySelector('#login-password');
 const loginBtn = document.querySelector('#login-button');
+const loginStatusText = document.querySelector('#login-status-text');
 
 // Toggles view of jsearch instructions popup
 const jsearchPopupToggle = ()=> {
@@ -33,7 +34,8 @@ loginBtn.addEventListener('click', async (event)=> {
       if (response.ok) {
         document.location.replace('/job-search');
       } else {
-        alert('Failed to log in');
+        loginStatusText.textContent = 'Invalid username or password';
+        loginStatusText.classList.add('text-red-600');
 
       }
 })
