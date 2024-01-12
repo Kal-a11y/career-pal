@@ -62,7 +62,7 @@ router.get('/job-search/:searchTerm', async (req, res) => {
       }
     })
 
-    res.render('jobsearch', {jobResults: jobData.result})
+    res.render('jobSearch', {jobResults: jobData.result})
   } catch (err) {
     console.log(err)
     res.status(500).json({ error: 'Internal Server Error' });
@@ -85,7 +85,7 @@ router.get('/job-search/:searchTerm/:job/:isMobile', async (req, res) => {
       res.render('jobsearchmobile', { fullInfo })
     } else {
 
-      res.render('jobsearch', { jobResults, fullInfo })
+      res.render('jobSearch', { jobResults, fullInfo })
     }
   } catch (err) {
     res.status(500)

@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const History = require('../../models/searchHistory');
-require('dotenv').config();
-
 
 router.post('/', async (req, res) => {
     try {
@@ -10,7 +8,7 @@ router.post('/', async (req, res) => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': process.env.API_KEY,
+                'X-RapidAPI-Key': '0b9700a505msh43a8ab52968bbeep18341fjsn0dc3a212ea99',
                 'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
             }
         };
@@ -28,7 +26,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(newHistory);
     } catch (err) {
         console.log(err)
-        res.status(500).json(err)
+        res.json(err)
     }
 
 })
